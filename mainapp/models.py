@@ -13,6 +13,10 @@ class SubCategory(models.Model):
     def __str__(self):
         return f"{self.pk} | {self.name=}"
 
+    class Meta:
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -30,6 +34,10 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.pk} | {self.name=}"
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Good(models.Model):
@@ -60,6 +68,10 @@ class Good(models.Model):
     def __str__(self):
         return f"{self.pk} | {self.name=}"
 
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
 
 class Cart(models.Model):
     goods = models.ManyToManyField(
@@ -67,3 +79,10 @@ class Cart(models.Model):
         verbose_name="Корзина",
     )
 
+    def __str__(self):
+        user = getattr(self, 'user', None)
+        return f"{self.pk} | {user}"
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'

@@ -18,6 +18,7 @@ class User(AbstractUser):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
+        related_name='user',
     )
 
     USERNAME_FIELD = "username"
@@ -25,3 +26,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.pk} | {self.username=} | {self.tg_id}"
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
