@@ -61,4 +61,9 @@ class Good(models.Model):
         return f"{self.pk} | {self.name=}"
 
 
+class Cart(models.Model):
+    goods = models.ManyToManyField(
+        "mainapp.Good",
+        verbose_name="Корзина",
+    )
 

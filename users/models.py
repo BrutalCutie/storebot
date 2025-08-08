@@ -1,3 +1,25 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class User(AbstractUser):
+    tg_id = models.BigIntegerField(
+        verbose_name="id телеграма",
+
+    )
+    username = models.CharField(
+        verbose_name='@пользователя',
+        max_length=100,
+        unique=True
+    )
+    cart = models.ForeignKey(
+        "mainapp.Cart",
+        verbose_name="корзина",
+        on_delete=models.CASCADE,
+    )
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return f"{self.pk} | {self.username=} | {self.tg_id}"
