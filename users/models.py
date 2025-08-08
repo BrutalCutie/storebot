@@ -16,10 +16,12 @@ class User(AbstractUser):
         "mainapp.Cart",
         verbose_name="корзина",
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ("tg_id",)
 
     def __str__(self):
         return f"{self.pk} | {self.username=} | {self.tg_id}"
