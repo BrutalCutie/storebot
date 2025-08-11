@@ -83,9 +83,27 @@ class Good(models.Model):
         verbose_name_plural = 'Товары'
 
 
+class GoodInCart(models.Model):
+    good = models.ForeignKey(
+        'mainapp.Good',
+        on_delete=models.CASCADE,
+        verbose_name='Ссылка на товар',
+    )
+    quantity = models.IntegerField(
+        verbose_name="Количество",
+    )
+
+    def __str__(self):
+        return f"{self.pk} | {self.good.name=} | {self.quantity=}"
+
+    class Meta:
+        verbose_name = 'Товар в корзине'
+        verbose_name_plural = 'Товары в корзине'
+
+
 class Cart(models.Model):
     goods = models.ManyToManyField(
-        "mainapp.Good",
+        "mainapp.GoodInCart",
         verbose_name="Корзина",
     )
 
