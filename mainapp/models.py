@@ -53,6 +53,12 @@ class Good(models.Model):
         decimal_places=2,
         max_digits=10,
     )
+    available_quantity = models.IntegerField(
+        verbose_name='Доступное количество',
+        null=True,
+        blank=True,
+    )
+
     min_price = models.DecimalField(
         verbose_name="Цена со скидкой",
         decimal_places=2,
@@ -63,6 +69,10 @@ class Good(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Подкатегория товара",
         related_name="goods"
+    )
+    is_active = models.BooleanField(
+        verbose_name="Признак активности",
+        default=True
     )
 
     def __str__(self):
