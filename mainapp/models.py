@@ -8,6 +8,8 @@ class SubCategory(models.Model):
     )
     help_text = models.TextField(
         verbose_name='Подробности подкатегории',
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
