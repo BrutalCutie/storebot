@@ -2,6 +2,13 @@ from django.db import models
 
 
 class SubCategory(models.Model):
+    category = models.ForeignKey(
+        'mainapp.Category',
+        on_delete=models.CASCADE,
+        verbose_name='Категория прикрепления',
+        related_name='subcategories',
+    )
+
     name = models.CharField(
         verbose_name="Наименование подкатегории",
         max_length=100,
@@ -27,11 +34,8 @@ class Category(models.Model):
     )
     help_text = models.TextField(
         verbose_name='Подробности категории',
-    )
-    sub_category = models.ManyToManyField(
-        "mainapp.SubCategory",
-        verbose_name="Подкатегории",
-        related_name="subcategories"
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
