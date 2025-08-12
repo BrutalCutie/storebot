@@ -53,6 +53,8 @@ class Good(models.Model):
     )
     description = models.TextField(
         verbose_name="Описание",
+        null=True,
+        blank=True,
     )
     price = models.DecimalField(
         verbose_name="Цена",
@@ -69,6 +71,8 @@ class Good(models.Model):
         verbose_name="Цена со скидкой",
         decimal_places=2,
         max_digits=10,
+        null=True,
+        blank=True
     )
     subcategory = models.ForeignKey(
         "mainapp.SubCategory",

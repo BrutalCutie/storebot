@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from rest_framework.viewsets import ModelViewSet
 
 from .models import SubCategory, Category, Good
@@ -14,7 +15,9 @@ class SubCategoryViewSet(ModelViewSet):
 
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.prefetch_related('subcategories').all()
+    queryset = Category.objects.prefetch_related(Prefetch(
+        'subcategories', queryset=SubCategory.objects.prefetch_related("goods").all()
+    )).all()
 
 
 class GoodViewSet(ModelViewSet):
