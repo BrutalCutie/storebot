@@ -59,7 +59,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
-    "mainapp.middleware.QueryCountMiddleware"
+    "mainapp.middleware.QueryCountMiddleware",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

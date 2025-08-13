@@ -1,4 +1,5 @@
 from django.db.models import Prefetch
+from django.views.generic import TemplateView
 from rest_framework.viewsets import ModelViewSet
 
 from .models import SubCategory, Category, Good
@@ -23,3 +24,7 @@ class CategoryViewSet(ModelViewSet):
 class GoodViewSet(ModelViewSet):
     serializer_class = GoodSerializer
     queryset = Good.objects.select_related("subcategory").all()
+
+
+class HomeTemplateView(TemplateView):
+    template_name = 'mainapp/main.html'

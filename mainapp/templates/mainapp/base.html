@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
+
+<body style="background-color: rgba(231, 231, 231, 0.322);">
     <!-- Шапка -->
     {% include 'mainapp/header.html' %}
     <div class="accent-strip"></div>
 
     <!-- Основной контент -->
     <section class="content-section">
-        <div class="container">
+        <div class="container" id="main-content">
             {% block content %}
             {% endblock %}
         </div>
@@ -23,5 +25,98 @@
     {% include 'mainapp/footer.html' %}
 
     <script src="/static/bootstrap_js/bootstrap.bundle.min.js"></script>
+    <script>
+        const navTabs = document.getElementById('nav-tabs');
+        const mainContent = document.getElementById('main-content');
+
+
+        async function changeContent(categoryId) {
+
+            try {
+                const response = await fetch(`http://localhost:8000/api/categories/${categoryId}/`);
+                const categories = await response.json();
+
+                mainContent.innerHTML = '';
+                categories.subcategories.forEach(subcategory => {
+                    const subcategoryDiv = document.createElement('div');
+                    const goods = subcategory.goods;
+                    const h4 = document.createElement('h4');
+                    const hr = document.createElement("hr");
+
+                    subcategoryDiv.id = `subcategory-div${subcategory.id}`;
+
+                    h4.innerText = subcategory.name;
+                    subcategoryDiv.appendChild(h4);
+
+                    goods.forEach(good => {
+                        const goodDiv = document.createElement('div');
+                        goodDiv.id = `good-div${good.id}`;
+                        goodDiv.className = 'card';
+
+                        const goodName = document.createElement('p');
+                        goodName.innerText = good.name;
+                        const goodPrice = document.createElement('p')
+                        goodPrice.innerText = good.price;
+                        goodDiv.appendChild(goodName);
+                        goodDiv.appendChild(goodPrice);
+                        subcategoryDiv.appendChild(goodDiv);
+                        subcategoryDiv.appendChild(hr);
+                        
+                    });
+
+                    mainContent.appendChild(subcategoryDiv);
+                    
+                });
+
+
+            }
+
+            catch (error) {
+                console.error('Ошибка при получении списка подкатегорий: ', error);
+            };
+
+
+
+
+
+        };
+
+        async function addNavTabs() {
+            try {
+                const response = await fetch("http://localhost:8000/api/categories/");
+                const categories = await response.json();
+
+                categories.forEach(element => {
+                    const li = document.createElement("li");
+                    const button = document.createElement("button");
+                    const h3 = document.createElement("h3");
+                    li.className = 'nav-item';
+                    li.id = `nav-category-${element.id}`;
+                    button.className = 'nav-link';
+                    button.type = 'button';
+                    button.onclick = function () {changeContent(element.id);};
+                    h3.innerHTML = element.name;
+                    button.appendChild(h3);
+                    li.appendChild(button);
+                    navTabs.appendChild(li);
+
+
+                });
+
+            }
+
+            catch (error) {
+                console.error("Ошибка при загрузке Нивигационных категорий:", error);
+            };
+
+        };
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            addNavTabs();
+        });
+    </script>
+
 </body>
+
 </html>
