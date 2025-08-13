@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 
@@ -61,6 +63,12 @@ class Good(models.Model):
         decimal_places=2,
         max_digits=10,
     )
+    image = models.ImageField(
+        verbose_name="Картинка товара",
+        null=True,
+        blank=True,
+        upload_to='goods/images'
+    )
     available_quantity = models.IntegerField(
         verbose_name='Доступное количество',
         null=True,
@@ -87,6 +95,20 @@ class Good(models.Model):
 
     def __str__(self):
         return f"{self.pk} | {self.name=}"
+
+    def save(self, *args, **kwargs):
+        try:
+            old_obj = Good.objects.get(pk=self.pk)
+        except Good.DoesNotExist:
+            old_obj = None
+
+        super().save(*args, **kwargs)
+
+        if old_obj and old_obj.image and old_obj.image != self.image:
+            old_image = old_obj.image.path
+            default_avatar_name = None
+            if os.path.isfile(old_image) and old_obj.image.url != default_avatar_name:
+                os.remove(old_image)
 
     class Meta:
         verbose_name = 'Товар'

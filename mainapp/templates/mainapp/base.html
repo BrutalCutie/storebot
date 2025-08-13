@@ -30,6 +30,49 @@
         const mainContent = document.getElementById('main-content');
 
 
+        function getGoodCard(good) {
+            const goodDiv = document.createElement('div');
+            goodDiv.id = `good-div${good.id}`;
+
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            cardDiv.style = 'width: 18rem;';
+        
+            const cardImage = document.createElement('img');
+            cardImage.className = 'card-img-top';
+
+            if (good.image == null) {
+                cardImage.src = "static/imgs/wo-image.bmp";    
+            } else {
+                cardImage.src = good.image;
+            };
+            cardDiv.appendChild(cardImage);
+
+            const cardBody = document.createElement('div');
+            cardBody.className = "card-body";
+            cardDiv.appendChild(cardBody);
+
+            const cardTitle = document.createElement('h5');
+            cardTitle.className = 'card-title';
+            cardTitle.innerText = good.name;
+            cardBody.appendChild(cardTitle);
+
+            const cardSubTitle = document.createElement('h6');
+            cardSubTitle.className = 'card-subtitle mb-2 text-body-secondary';
+            cardSubTitle.innerText = `${good.price} ₽`;
+            cardBody.appendChild(cardSubTitle);
+
+            const cardText = document.createElement('p');
+            cardText.className = 'card-text';
+            cardText.innerText = good.description;
+            cardBody.appendChild(cardText);
+
+            goodDiv.appendChild(cardDiv)
+            return goodDiv
+            ;
+        }
+
+
         async function changeContent(categoryId) {
 
             try {
@@ -40,46 +83,33 @@
                 categories.subcategories.forEach(subcategory => {
                     const subcategoryDiv = document.createElement('div');
                     const goods = subcategory.goods;
-                    const h4 = document.createElement('h4');
+                    const p = document.createElement('p');
+                    p.className = 'text-black-50 text-center';
+                    p.innerText = subcategory.name;
+
                     const hr = document.createElement("hr");
 
                     subcategoryDiv.id = `subcategory-div${subcategory.id}`;
 
-                    h4.innerText = subcategory.name;
-                    subcategoryDiv.appendChild(h4);
+                    subcategoryDiv.appendChild(p);
 
                     goods.forEach(good => {
-                        const goodDiv = document.createElement('div');
-                        goodDiv.id = `good-div${good.id}`;
-                        goodDiv.className = 'card';
 
-                        const goodName = document.createElement('p');
-                        goodName.innerText = good.name;
-                        const goodPrice = document.createElement('p')
-                        goodPrice.innerText = good.price;
-                        goodDiv.appendChild(goodName);
-                        goodDiv.appendChild(goodPrice);
-                        subcategoryDiv.appendChild(goodDiv);
-                        subcategoryDiv.appendChild(hr);
-                        
+                        subcategoryDiv.appendChild(getGoodCard(good));
+
                     });
 
+                    subcategoryDiv.appendChild(hr);
+
                     mainContent.appendChild(subcategoryDiv);
-                    
+
                 });
-
-
             }
-
             catch (error) {
                 console.error('Ошибка при получении списка подкатегорий: ', error);
             };
-
-
-
-
-
         };
+
 
         async function addNavTabs() {
             try {
@@ -94,23 +124,17 @@
                     li.id = `nav-category-${element.id}`;
                     button.className = 'nav-link';
                     button.type = 'button';
-                    button.onclick = function () {changeContent(element.id);};
+                    button.onclick = function () { changeContent(element.id); };
                     h3.innerHTML = element.name;
                     button.appendChild(h3);
                     li.appendChild(button);
                     navTabs.appendChild(li);
-
-
                 });
-
             }
-
             catch (error) {
                 console.error("Ошибка при загрузке Нивигационных категорий:", error);
             };
-
         };
-
 
         document.addEventListener("DOMContentLoaded", () => {
             addNavTabs();
