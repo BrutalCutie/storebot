@@ -4,31 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/css/my_style.css">
     <title>{% block title %}{% endblock %}</title>
-    <style>
-        /* Стили для горизонтального скролла товаров */
-        .goods-scroll-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 15px 0;
-            scrollbar-width: thin;
-        }
-
-        .goods-scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .goods-scroll-container::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-
-        .goods-scroll-container>.card {
-            flex: 0 0 auto;
-        }
-    </style>
 </head>
 
 <body style="background-color: rgba(231, 231, 231, 0.322);">
@@ -115,7 +93,7 @@
 
                     // Контейнер для горизонтального скролла
                     const scrollContainer = document.createElement('div');
-                    scrollContainer.className = 'goods-scroll-container'; // Добавляем класс для стилей
+                    scrollContainer.className = 'scroll-container'; // Добавляем класс для стилей
 
                     goods.forEach(good => {
                         scrollContainer.appendChild(getGoodCard(good));
@@ -136,7 +114,7 @@
                 const response = await fetch("http://localhost:8000/api/categories/");
                 const categories = await response.json();
                 const scrollContainer = document.createElement('div');
-                scrollContainer.className = 'goods-scroll-container'; // Добавляем класс для стилей
+                scrollContainer.className = 'scroll-container'; // Добавляем класс для стилей
 
                 categories.forEach(element => {
                     const li = document.createElement("li");

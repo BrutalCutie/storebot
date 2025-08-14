@@ -1,0 +1,21 @@
+/* Стили для горизонтального скролла товаров */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 15px 0;
+    scrollbar-width: thin;
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.scroll-container>.card {
+    flex: 0 0 auto;
+}
