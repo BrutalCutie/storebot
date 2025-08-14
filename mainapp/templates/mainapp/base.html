@@ -6,6 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
+    <style>
+        /* Стили для горизонтального скролла товаров */
+        .goods-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 15px 0;
+            scrollbar-width: thin;
+        }
+
+        .goods-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .goods-scroll-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .goods-scroll-container>.card {
+            flex: 0 0 auto;
+        }
+    </style>
 </head>
 
 <body style="background-color: rgba(231, 231, 231, 0.322);">
@@ -35,14 +58,14 @@
             goodDiv.id = `good-div${good.id}`;
 
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-            cardDiv.style = 'width: 18rem;';
-        
+            cardDiv.className = 'card h-100';
+            cardDiv.style = 'min-width: 250px; max-width: 250px;'; // Фиксируем размер карточки
+
             const cardImage = document.createElement('img');
             cardImage.className = 'card-img-top';
 
             if (good.image == null) {
-                cardImage.src = "static/imgs/wo-image.bmp";    
+                cardImage.src = "static/imgs/wo-image.bmp";
             } else {
                 cardImage.src = good.image;
             };
@@ -69,7 +92,7 @@
 
             goodDiv.appendChild(cardDiv)
             return goodDiv
-            ;
+                ;
         }
 
 
@@ -83,26 +106,24 @@
                 categories.subcategories.forEach(subcategory => {
                     const subcategoryDiv = document.createElement('div');
                     const goods = subcategory.goods;
+
+                    // Заголовок подкатегории
                     const p = document.createElement('p');
-                    p.className = 'text-black-50 text-center';
+                    p.className = 'text-black-50 text-center fw-bold';
                     p.innerText = subcategory.name;
-
-                    const hr = document.createElement("hr");
-
-                    subcategoryDiv.id = `subcategory-div${subcategory.id}`;
-
                     subcategoryDiv.appendChild(p);
 
+                    // Контейнер для горизонтального скролла
+                    const scrollContainer = document.createElement('div');
+                    scrollContainer.className = 'goods-scroll-container'; // Добавляем класс для стилей
+
                     goods.forEach(good => {
-
-                        subcategoryDiv.appendChild(getGoodCard(good));
-
+                        scrollContainer.appendChild(getGoodCard(good));
                     });
 
-                    subcategoryDiv.appendChild(hr);
-
+                    subcategoryDiv.appendChild(scrollContainer);
+                    subcategoryDiv.appendChild(document.createElement("hr"));
                     mainContent.appendChild(subcategoryDiv);
-
                 });
             }
             catch (error) {
@@ -110,11 +131,12 @@
             };
         };
 
-
         async function addNavTabs() {
             try {
                 const response = await fetch("http://localhost:8000/api/categories/");
                 const categories = await response.json();
+                const scrollContainer = document.createElement('div');
+                scrollContainer.className = 'goods-scroll-container'; // Добавляем класс для стилей
 
                 categories.forEach(element => {
                     const li = document.createElement("li");
@@ -126,9 +148,11 @@
                     button.type = 'button';
                     button.onclick = function () { changeContent(element.id); };
                     h3.innerHTML = element.name;
+
                     button.appendChild(h3);
                     li.appendChild(button);
-                    navTabs.appendChild(li);
+                    scrollContainer.appendChild(li);
+                navTabs.appendChild(scrollContainer);
                 });
             }
             catch (error) {

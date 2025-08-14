@@ -22,7 +22,7 @@ class SubCategory(models.Model):
     )
 
     def __str__(self):
-        return f"{self.pk} | {self.name=}"
+        return f"{self.pk} | {self.name=} | {self.category.name}"
 
     class Meta:
         verbose_name = 'Подкатегория'

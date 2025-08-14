@@ -44,6 +44,8 @@ class AdminSubCategory(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "category__name",
+        "category__id",
     )
     list_filter = (
         "id",
