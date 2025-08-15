@@ -7,8 +7,8 @@ function getGoodCard(good) {
     goodDiv.id = `good-div${good.id}`;
 
     const cardDiv = document.createElement('div');
-    cardDiv.className = 'card h-100';
-    cardDiv.style = 'min-width: 250px; max-width: 250px;'; // Фиксируем размер карточки
+    cardDiv.className = 'card h-100 mx-1';
+    cardDiv.style = 'min-width: 18rem; max-width: 18rem;'; // Фиксируем размер карточки
 
     const cardImage = document.createElement('img');
     cardImage.className = 'card-img-top';
@@ -80,31 +80,4 @@ async function changeContent(categoryId) {
     };
 };
 
-async function addNavTabs() {
-    try {
-        const response = await fetch("http://localhost:8000/api/categories/");
-        const categories = await response.json();
-        const scrollContainer = document.createElement('div');
-        scrollContainer.className = 'scroll-container'; // Добавляем класс для стилей
 
-        categories.forEach(element => {
-            const li = document.createElement("li");
-            const button = document.createElement("button");
-            const h3 = document.createElement("h3");
-            li.className = 'nav-item';
-            li.id = `nav-category-${element.id}`;
-            button.className = 'nav-link';
-            button.type = 'button';
-            button.onclick = function () { changeContent(element.id); };
-            h3.innerHTML = element.name;
-
-            button.appendChild(h3);
-            li.appendChild(button);
-            scrollContainer.appendChild(li);
-            navTabs.appendChild(scrollContainer);
-        });
-    }
-    catch (error) {
-        console.error("Ошибка при загрузке Нивигационных категорий:", error);
-    };
-};
