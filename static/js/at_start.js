@@ -5,16 +5,16 @@ async function addNavTabs() {
         const scrollContainer = document.createElement('div');
         scrollContainer.className = 'scroll-container'; // Добавляем класс для стилей
 
-        categories.forEach(element => {
+        categories.forEach(category => {
             const li = document.createElement("li");
             const button = document.createElement("button");
             const h3 = document.createElement("h3");
             li.className = 'nav-item';
-            li.id = `nav-category-${element.id}`;
+            li.id = `nav-category-${category.id}`;
             button.className = 'nav-link';
             button.type = 'button';
-            button.onclick = function () { changeContent(element.id); };
-            h3.innerHTML = element.name;
+            button.onclick = function () { changeContent(category.id); };
+            h3.innerHTML = category.name;
 
             button.appendChild(h3);
             li.appendChild(button);
@@ -23,7 +23,8 @@ async function addNavTabs() {
         });
         
         const firstCategoryId = categories[0].id
-        changeContent(firstCategoryId);
+
+        changeContent(firstCategoryId); // Добавляем на главный экран контент первой категории
     }
     catch (error) {
         console.error("Ошибка при загрузке Нивигационных категорий:", error);
