@@ -47,16 +47,21 @@ function getGoodCard(good) {
 
     // Подвал карточки
     const cardFooterDiv = document.createElement('div');
-    cardFooterDiv.className = 'card-footer';
+    cardFooterDiv.className = 'card-footer p-0';
     cardDiv.appendChild(cardFooterDiv);
 
     // Кнопка добавления в корзину
-    // const addToCardButton = document.createElement('button');
-    // addToCardButton.type = 'button';
-    // addToCardButton.className = "";
+    const addToCardButton = document.createElement('button');
+    addToCardButton.type = 'button';
+    addToCardButton.className = 'btn w-100'
+    addToCardButton.style = "border-radius: 0px;background-color: #00f7ffb2;";
+
+    const buttonText = document.createElement('h6')
+    buttonText.innerText = 'В корзину'
+    addToCardButton.appendChild(buttonText)
     // addToCardButton.innerText = 'В корзину';
     
-    // cardFooterDiv.append(addToCardButton);
+    cardFooterDiv.append(addToCardButton);
 
     goodDiv.appendChild(cardDiv);
     return goodDiv;
