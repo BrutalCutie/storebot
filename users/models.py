@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -24,6 +26,14 @@ class User(AbstractUser):
         blank=True,
     )
 
+    cart = models.OneToOneField(
+        'mainapp.Cart',
+        on_delete=models.CASCADE,
+        related_name='user',
+        null=True,
+        blank=True,
+    )
+
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ("tg_id",)
 
@@ -33,3 +43,4 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
