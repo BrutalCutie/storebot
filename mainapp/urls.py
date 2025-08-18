@@ -12,6 +12,7 @@ router = DefaultRouter()
 router.register(r'api/subcategories', views.SubCategoryViewSet, basename='subcategories')
 router.register(r'api/categories', views.CategoryViewSet, basename='categories')
 router.register(r'api/goods', views.GoodViewSet, basename='goods')
+router.register(r'api/carts', views.CartDetailView, basename='carts')
 
 
 urlpatterns = [

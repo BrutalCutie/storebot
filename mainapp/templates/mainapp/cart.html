@@ -1,6 +1,43 @@
+<!-- Кнопка для запуска модального окна -->
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    🛒Корзина
+</button>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ваша корзина</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="cart-modal-content">
 
 
 
-<!-- <button class="btn" type="button" id="cart-button">Корзина</button> -->
+            </div>
+
+            <hr>
+
+            <div id="contact-form" class="container">
+
+                <div class="mb-3">
+                    <label for="contact-phone-field" class="form-label">Номер телефона</label>
+                    <input type="text" placeholder="Телефон" id="contact-phone-field" class="form-control" aria-describedby="phoneHelp">
+                    <div id="phoneHelp" class="form-text">Необязательное поле</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address-field" class="form-label">Адрес доставки</label>
+                    <input type="text" placeholder="Адрес" id="address-field" class="form-control">
+                </div>
 
 
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/js/cart.js"></script>

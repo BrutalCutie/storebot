@@ -1,2 +1,1 @@
-const cartButton = document.getElementById("cart-button")
-
+let cartMainContent = document.getElementById('cart-modal-content')

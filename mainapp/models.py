@@ -121,6 +121,14 @@ class GoodInCart(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Ссылка на товар',
     )
+    cart = models.ForeignKey(
+        'mainapp.Cart',
+        on_delete=models.CASCADE,
+        related_name='goods',
+        null=True
+
+    )
+
     quantity = models.IntegerField(
         verbose_name="Количество",
     )
@@ -134,9 +142,11 @@ class GoodInCart(models.Model):
 
 
 class Cart(models.Model):
-    goods = models.ManyToManyField(
-        "mainapp.GoodInCart",
-        verbose_name="Корзина",
+    user = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        related_name='cart',
+        null=True,
     )
 
     def __str__(self):

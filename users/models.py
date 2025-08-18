@@ -12,13 +12,16 @@ class User(AbstractUser):
         max_length=100,
         unique=True
     )
-    cart = models.ForeignKey(
-        "mainapp.Cart",
-        verbose_name="корзина",
-        on_delete=models.CASCADE,
+
+    address = models.CharField(
+        verbose_name='адрес',
         null=True,
         blank=True,
-        related_name='user',
+    )
+    phone = models.CharField(
+        verbose_name='номер телефона',
+        null=True,
+        blank=True,
     )
 
     USERNAME_FIELD = "username"
