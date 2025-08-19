@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mainapp.models import Good, Category, SubCategory
+from mainapp.models import Good, Category, SubCategory, DeliveryRegion
 
 
 @admin.register(Good)
@@ -56,3 +56,10 @@ class AdminSubCategory(admin.ModelAdmin):
     )
 
 
+@admin.register(DeliveryRegion)
+class AdminDeliveryRegion(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "price"
+    )

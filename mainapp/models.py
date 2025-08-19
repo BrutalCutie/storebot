@@ -122,6 +122,14 @@ class GoodInCart(models.Model):
         verbose_name='Ссылка на товар',
     )
 
+    cart = models.ForeignKey(
+        "mainapp.Cart",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='goods'
+    )
+
     quantity = models.IntegerField(
         verbose_name="Количество",
     )
@@ -136,12 +144,6 @@ class GoodInCart(models.Model):
 
 class Cart(models.Model):
 
-    goods = models.ManyToManyField(
-        'mainapp.GoodInCart',
-        null=True,
-        blank=True
-    )
-
     def __str__(self):
         user = getattr(self, 'user', None)
         return f"{self.pk} | {user}"
@@ -149,3 +151,22 @@ class Cart(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
+
+class DeliveryRegion(models.Model):
+    name = models.CharField(
+        verbose_name='название',
+        max_length=100,
+    )
+    price = models.DecimalField(
+        verbose_name='цена доставки',
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    def __str__(self):
+        return f"{self.pk}"
+
+    class Meta:
+        verbose_name = 'район доставки'
+        verbose_name_plural = 'районы доставки'

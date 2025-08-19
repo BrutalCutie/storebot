@@ -2,8 +2,8 @@ from django.db.models import Prefetch
 from django.views.generic import TemplateView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import SubCategory, Category, Good, Cart
-from .serializers import SubCategorySerializer, CategorySerializer, GoodSerializer, CartSerializer
+from .models import SubCategory, Category, Good, Cart, GoodInCart
+from .serializers import SubCategorySerializer, CategorySerializer, GoodSerializer, CartSerializer, GoodInCartSerializer
 
 
 class SubCategoryViewSet(ModelViewSet):
@@ -26,7 +26,12 @@ class GoodViewSet(ModelViewSet):
     queryset = Good.objects.select_related("subcategory").all()
 
 
-class CartDetailView(ModelViewSet):
+class GoodInCartViewSet(ModelViewSet):
+    serializer_class = GoodInCartSerializer
+    queryset = GoodInCart.objects.all()
+
+
+class CartViewSet(ModelViewSet):
     serializer_class = CartSerializer
     queryset = Cart.objects.all()
 

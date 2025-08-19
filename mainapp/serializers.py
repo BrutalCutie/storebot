@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from mainapp.models import SubCategory, Category, Good, Cart
+from mainapp.models import SubCategory, Category, Good, Cart, GoodInCart
 
 
 class GoodSerializer(serializers.ModelSerializer):
@@ -34,7 +34,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodInCartSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GoodInCart
+        fields = "__all__"
+
+
 class CartSerializer(serializers.ModelSerializer):
+    goods = GoodInCartSerializer(many=True, read_only=True)
 
     class Meta:
         model = Cart
