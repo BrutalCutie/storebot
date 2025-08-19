@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from rest_framework import serializers
 
 from mainapp.models import SubCategory, Category, Good, Cart, GoodInCart
@@ -10,7 +12,8 @@ class GoodSerializer(serializers.ModelSerializer):
         model = Good
         fields = "__all__"
 
-    def get_subcategory_name(self, obj):
+    @staticmethod
+    def get_subcategory_name(obj):
         return obj.subcategory.name
 
 
@@ -22,7 +25,8 @@ class SubCategorySerializer(serializers.ModelSerializer):
         model = SubCategory
         fields = "__all__"
 
-    def get_category_name(self, obj):
+    @staticmethod
+    def get_category_name(obj):
         return obj.category.name
 
 
@@ -35,6 +39,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GoodInCartSerializer(serializers.ModelSerializer):
+    good = GoodSerializer(read_only=True)
 
     class Meta:
         model = GoodInCart
@@ -43,6 +48,16 @@ class GoodInCartSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     goods = GoodInCartSerializer(many=True, read_only=True)
+    total_price = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_total_price(obj):
+        total_price = Decimal(0)
+
+        for good in obj.goods.all():
+            total_price += good.good.price * good.quantity
+
+        return total_price
 
     class Meta:
         model = Cart
