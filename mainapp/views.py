@@ -28,12 +28,12 @@ class GoodViewSet(ModelViewSet):
 
 class GoodInCartViewSet(ModelViewSet):
     serializer_class = GoodInCartSerializer
-    queryset = GoodInCart.objects.all()
+    queryset = GoodInCart.objects.select_related("good").all()
 
 
 class CartViewSet(ModelViewSet):
     serializer_class = CartSerializer
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.prefetch_related('goods').all()
 
 
 class HomeTemplateView(TemplateView):
