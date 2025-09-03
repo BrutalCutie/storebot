@@ -1,3 +1,5 @@
+
+
 const navTabs = document.getElementById('nav-tabs');
 const mainContent = document.getElementById('main-content');
 
@@ -55,6 +57,15 @@ function getGoodCard(good) {
     cardDiv.appendChild(cardFooterDiv);
 
     // Кнопка добавления в корзину
+    cardFooterDiv.append(getInCartButton(good));
+
+    goodDiv.appendChild(cardDiv);
+    return goodDiv;
+};
+
+
+// фция кнопки "В корзину"
+function getInCartButton(good) {
     const addToCardButton = document.createElement('button');
     addToCardButton.type = 'button';
     addToCardButton.className = 'btn w-100'
@@ -64,30 +75,31 @@ function getGoodCard(good) {
     const buttonText = document.createElement('h6')
     buttonText.innerText = 'В корзину'
     addToCardButton.appendChild(buttonText)
-    // addToCardButton.innerText = 'В корзину';
 
-    cardFooterDiv.append(addToCardButton);
-
-    goodDiv.appendChild(cardDiv);
-    return goodDiv;
-};
-
+    return addToCardButton
+}
 
 async function putInCart(goodId) {
     const cartItemData = {
         good: goodId,  // ID товара
-        cart: userCartId,     // ID корзины
+        cart: userCartId,  // ID корзины
         quantity: 1  // Количество
-    };
 
+    };
     // Отправка POST-запроса
-    fetch('/api/cartgoods/', {
-        method: 'POST',
+    postRequest('/api/cartgoods/', cartItemData)
+
+}
+
+async function postRequest(path, data, method='POST') {
+    // Отправка POST-запроса
+    fetch(path, {
+        method: method,
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken') // Если используете CSRF защиту
         },
-        body: JSON.stringify(cartItemData)
+        body: JSON.stringify(data)
     })
         .then(response => {
             if (!response.ok) {
@@ -99,7 +111,7 @@ async function putInCart(goodId) {
             console.error('Ошибка:', error);
         });
 
-    // Функция для получения CSRF токена (если нужно)
+    // Функция для получения CSRF токена
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -115,7 +127,6 @@ async function putInCart(goodId) {
         return cookieValue;
     }
 }
-
 
 // Фция Изменения блока контента
 async function changeContent(categoryId) {

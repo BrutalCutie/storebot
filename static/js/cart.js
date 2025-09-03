@@ -59,14 +59,17 @@ async function fillCartContent() {
         const cartGoods = cartData.cart.goods;
         cartGoods.forEach(good => {
             const row = goodsTable.insertRow();
+            const deleteButton = document.createElement('button');
+            deleteButton.onclick = function () {deleteGoodFromCart(good)}
+            deleteButton.innerText = "❌"
+
             row.id = `row-${good.id}`
             row.insertCell(0).textContent = good.good_data.name;
             row.insertCell(1).textContent = `${good.good_data.price}₽`;
             row.insertCell(2).textContent = good.quantity;
         });
-
     }
-
+    
     // загружаем контент конзины при ошибке
     catch (error) {
         console.error(error);
@@ -80,6 +83,8 @@ async function fillCartContent() {
 
 };
 
-
+function deleteGoodFromCart(good) {
+    // postRequest(`/api/cartgoods/${good.id}`, {}, 'DELETE')
+}
 
 
