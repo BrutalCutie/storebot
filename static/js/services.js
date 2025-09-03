@@ -1,6 +1,10 @@
 const navTabs = document.getElementById('nav-tabs');
 const mainContent = document.getElementById('main-content');
 
+const userTgId = 2
+const userCartId = 2
+
+
 
 // Фция для сбора карточки
 function getGoodCard(good) {
@@ -21,7 +25,7 @@ function getGoodCard(good) {
         cardImage.src = good.image;
     };
     cardDiv.appendChild(cardImage);
-    
+
     // Содержимое ниже картинки
     const cardBody = document.createElement('div');
     cardBody.className = "card-body";
@@ -55,12 +59,13 @@ function getGoodCard(good) {
     addToCardButton.type = 'button';
     addToCardButton.className = 'btn w-100'
     addToCardButton.style = "border-radius: 0px;background-color: #00f7ffb2;";
+    addToCardButton.onclick = function () { putInCart(good.id) }
 
     const buttonText = document.createElement('h6')
     buttonText.innerText = 'В корзину'
     addToCardButton.appendChild(buttonText)
     // addToCardButton.innerText = 'В корзину';
-    
+
     cardFooterDiv.append(addToCardButton);
 
     goodDiv.appendChild(cardDiv);
@@ -68,10 +73,54 @@ function getGoodCard(good) {
 };
 
 
+async function putInCart(goodId) {
+    const cartItemData = {
+        good: goodId,  // ID товара
+        cart: userCartId,     // ID корзины
+        quantity: 1  // Количество
+    };
+
+    // Отправка POST-запроса
+    fetch('/api/cartgoods/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Если используете CSRF защиту
+        },
+        body: JSON.stringify(cartItemData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сети');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+
+    // Функция для получения CSRF токена (если нужно)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+}
+
+
 // Фция Изменения блока контента
 async function changeContent(categoryId) {
     try {
-        const response = await fetch(`http://localhost:8000/api/categories/${categoryId}/`);
+        const response = await fetch(`/api/categories/${categoryId}/`);
         const categories = await response.json();
 
         mainContent.innerHTML = '';

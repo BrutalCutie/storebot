@@ -1,6 +1,6 @@
 async function addNavTabs() {
     try {
-        const response = await fetch("http://localhost:8000/api/categories/");
+        const response = await fetch("/api/categories/");
         const categories = await response.json();
         const scrollContainer = document.createElement('div');
         scrollContainer.className = 'scroll-container'; // Добавляем класс для стилей

@@ -17,7 +17,7 @@ async function fillCartContent() {
     const userTgId = 1
 
     try {
-        const response = await fetch(`http://localhost:8000/api/users/${userTgId}`);
+        const response = await fetch(`/api/users/${userTgId}`);
         const cartData = await response.json();
 
         // table div
@@ -60,8 +60,8 @@ async function fillCartContent() {
         cartGoods.forEach(good => {
             const row = goodsTable.insertRow();
             row.id = `row-${good.id}`
-            row.insertCell(0).textContent = good.good.name;
-            row.insertCell(1).textContent = `${good.good.price}₽`;
+            row.insertCell(0).textContent = good.good_data.name;
+            row.insertCell(1).textContent = `${good.good_data.price}₽`;
             row.insertCell(2).textContent = good.quantity;
         });
 

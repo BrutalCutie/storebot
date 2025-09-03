@@ -39,7 +39,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GoodInCartSerializer(serializers.ModelSerializer):
-    good = GoodSerializer(read_only=True)
+    good_data = GoodSerializer(source='good', read_only=True)
 
     class Meta:
         model = GoodInCart
